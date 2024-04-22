@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="lt-ie10 lt-ie9"> <![endif]-->
+<!--[if IE 9]><html class="lt-ie10"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html>
+<!--<![endif]-->
+<head>
+    <!-- {MobileAppHeaders} -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>
+        <!-- {Title}
+        {block:SearchPage}
+            ({lang:Search results for SearchQuery})
+        {/block:SearchPage}
+        {block:PermalinkPage}
+            {block:PostSummary} — {PostSummary}{/block:PostSummary}
+        {/block:PermalinkPage} -->
+    </title>
+    <!-- {block:Description} -->
+        <meta name="description" content="{MetaDescription}" />
+    <!-- {/block:Description}
+    {block:Hidden} -->
+        <meta name="if:Infinite Scroll" content="1" />
+        <meta name="if:Show Page Menu" content="1" />
+        <meta name="if:Show About Icon" content="1" />
+        <meta name="if:Show Subscribe Icon" content="1" />
+        <meta name="if:Show Contact Icon" content="1" />
+        <meta name="if:Show Archive Icon" content="1" />
+        <meta name="text:Top Navigation Label" content="pages" />
+        <meta name="text:Mobile Navigation Label" content="menu" />
+        <meta name="text:About Icon Label" content="about" />
+        <meta name="text:About Icon URL" content="/about" />
+        <meta name="text:Contact Icon Email" content="youremail@woz.com" />
+        <meta name="text:Disqus Shortname" content="" />
+    <!-- {/block:Hidden} -->
+
+    <!-- Theme Configuration -->
+    <link rel="shortcut icon" href="{Favicon}">
+    <link rel="alternate" type="application/rss+xml" href="{RSS}">
+    <link rel="apple-touch-icon-precomposed" href="{PortraitURL-128}">
+
+    <!-- Theme Styles -->
+    <link rel="stylesheet" href="https://static.tumblr.com/xeccbfq/9Qenv9yn8/normalize.min.css" />
+    <link rel="stylesheet" href="https://static.tumblr.com/kifah6n/UoBpzybql/styles.min.css" />
+    <link rel="stylesheet" href="https://static.tumblr.com/tehqqqq/5Xurl3a02/woz.min.css" />
+    <link rel="stylesheet" href="https://static.tumblr.com/kifah6n/z60pzydpr/pxu-photoset.min.css" />
+
+    <style type="text/css">
+        .posts-wrapper {
+            {block:AskPage}
+                justify-content: center;
+            {/block:AskPage}
+            {block:PermalinkPage}
+                background: url('https://static.tumblr.com/kifah6n/Sc0pyv3wz/pattern-appleii-yellow.png');
+            {/block:PermalinkPage}
+        }
+        .main-title:after {
+            {block:IndexPage}
+                content: 'Posts';
+            {/block:IndexPage}
+            {block:PermalinkPage}
+                content: 'Page';
+            {/block:PermalinkPage}
+            {block:AskPage}
+                content: 'Message';
+            {/block:AskPage}
+            {block:TagPage}
+                content: '{Tag}';
+                text-transform: capitalize;
+            {/block:TagPage}
+            {block:PostNotes}
+                content: 'Post';
+            {/block:PostNotes}
+        }
+        .post-content p {
+            {block:PermalinkPage}
+                text-align: justify;
+            {block:PermalinkPage}
+        }
+        .actions-wrapper {
+            {block:PermalinkPage}
+                display: none;
+            {/block:PermalinkPage}
+            {block:PostNotes}
+                display: flex;
+                flex: unset;
+                width: 100%;
+            {/block:PostNotes}
+        }
+        .post-windows {
+            {block:AskPage}
+                margin-bottom: 0;
+            {/block:AskPage}
+            {block:PermalinkPage}
+                margin-bottom: 0;
+            {/block:PermalinkPage}
+        }
+        .btn-postwindows {
+            {block:PostNotes}
+                background: white;
+            {/block:PostNotes}
+        }
+        .info-posts {
+            {block:PermalinkPage}
+                display: none;
+            {/block:PermalinkPage}
+        }
+        .clipboard {
+            {block:PermalinkPage}
+                align-items: center;
+                max-width: none;
+            {/block:PermalinkPage}
+        }
+        .clipboard-wrapper {
+            {block:PermalinkPage}
+                flex-direction: row-reverse;
+                justify-content: center;
+                width: 100%;
+                padding-bottom: 5px;
+            {/block:PermalinkPage}
+        }
+        .clipboard-icons1 {
+            {block:PermalinkPage}
+                align-items: flex-end;
+                margin-bottom: 0;
+                width: 70%;
+            {/block:PermalinkPage}
+        }
+        .clipboard-icons2 {
+            {block:PermalinkPage}
+                width: 100%;
+                margin: 0;
+            {/block:PermalinkPage}
+        }
+        .clipboard-icons1, .clipboard-icons2 {
+            {block:PermalinkPage}
+                justify-content: space-around;
+            {/block:PermalinkPage}
+        }
+        {CustomCSS}
+    </style>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://static.tumblr.com/kifah6n/yYqpybi3h/scripts.min.js"></script>
+    <script type="text/javascript" src="https://static.tumblr.com/kifah6n/fK1pzqzpb/woz.min.js"></script>
+    <script type="text/javascript" src="https://static.tumblr.com/kifah6n/ZgXpzwt9r/pxuphotoset.min.js"></script>
+    <script>
+        const setPhotosets = () => {
+            $('.photo-slideshow').pxuPhotoset({
+                lightbox: true,
+                rounded: false,
+                gutter: '7px',
+                borderRadius: '0px',
+                photoset: '.photo-slideshow',
+                photoWrap: '.photo-data',
+                photo: '.pxu-photo'
+            });
+        }
+        window.addEventListener("load", () => {
+           setPhotosets();
+           {block:IfInfiniteScroll}
+               const scrll_c = document.querySelectorAll(".posts-wrapper")[0];
+               scrll_c.addEventListener("scroll", () => {
+                    const h = scrll_c.scrollTop + scrll_c.clientHeight;
+                    const end = h - scrll_c.scrollHeight === 0;
+                    if (end) {
+                        setTimeout(() => setPhotosets(), 500);
+                    }
+                });
+           {/block:IfInfiniteScroll}
+        });
+    </script>
+    {block:IfInfiniteScroll}
+        <script type="text/javascript" src="https://static.tumblr.com/kifah6n/WHXpzduqt/infinite-scroll.min.js"
+            scrll_c=".posts-wrapper" posts_c=".posts" btn_c="" btn_tgl=""
+            auto_enabled=true auto_from="*" auto_to="*">
+        </script>
+    {/block:IfInfiniteScroll}
+</head>
+<body>
+    <div class="desktop-container">
+        <div class="main-taskbar">
+            <img src="https://static.tumblr.com/kifah6n/eeSpzde8k/apple-icon.svg" />
+            <div class="taskbar-content">
+                <div class="taskbar-item">
+                    <a href="/">{Title}</a>
+                </div>
+                {block:IfShowPageMenu}
+                    {block:HasPages}
+                        <div class="taskbar-item">
+                            <div class="dropdown">
+                                <div class="dropdown-label">
+                                    <span>{text:Top Navigation Label}</span>
+                                </div>
+                                <div class="dropdown-content">
+                                    {block:Pages}
+                                        <a href="{URL}">{Label}</a>
+                                    {/block:Pages}
+                                </div>
+                            </div>
+                        </div>
+                    {/block:HasPages}
+                {/block:IfShowPageMenu}
+            </div>
+        </div>
+        <div class="desktop-content">
+            <div class="desktop-icons">
+                <div class="icon">
+                    <div class="homepage-icon draggable">
+                        <div class="icon-wrapper">
+                            <a href="/" class="icon-svg" onclick="showWindow('main')"></a>
+                            <a href="/" class="icon-label">
+                                <span>{Title}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                {block:IfShowAboutIcon}
+                    <div class="icon">
+                        <div class="aboutpage-icon draggable">
+                            <div class="icon-wrapper">
+                                <a href="{text:About Icon URL}" class="icon-svg" onclick="showWindow('main')"></a>
+                                <a href="{text:About Icon URL}" class="icon-label">
+                                    <span>{text:About Icon Label}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {/block:IfShowAboutIcon}
+                {block:AskEnabled}
+                    <div class="icon">
+                        <div class="askpage-icon draggable">
+                            <div class="icon-wrapper">
+                                <a href="/ask" class="icon-svg"></a>
+                                <a href="/ask" class="icon-label">
+                                    <span>{AskLabel}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {/block:AskEnabled}
+                {block:IfShowSubscribeIcon}
+                    <div class="icon">
+                        <div class="subscriberss-icon draggable">
+                            <div class="icon-wrapper">
+                                <a href="{RSS}" class="icon-svg" target="_blank"></a>
+                                <a href="{RSS}" class="icon-label">
+                                    <span>Subscribe</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {/block:IfShowSubscribeIcon}
+                {block:IfShowContactIcon}
+                    <div class="icon">
+                        <div class="contact-icon draggable">
+                            <div class="icon-wrapper">
+                                <a href="mailto:{text:Contact Icon Email}" class="icon-svg">
+                                <a href="mailto:{text:Contact Icon Email}" class="icon-label">
+                                    <span>Contact</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {/block:IfShowContactIcon}
+            </div>
+            <div class="desktop-empty">
+                <div class="posts-container draggable">
+                    <div class="taskbar">
+                        <div class="taskbar-items">
+                            <div class="smalllines-wrapper">
+                                <div class="small-lines"></div>
+                                <div class="small-lines"></div>
+                                <div class="small-lines"></div>
+                                <div class="small-lines"></div>
+                            </div>
+                            <div class="square-wrapper">
+                                <div class="square-icon" onclick="closeWindow('main')"></div>
+                            </div>
+                            <div class="biglines-wrapper">
+                                <div class="big-lines"></div>
+                                <div class="big-lines"></div>
+                                <div class="big-lines"></div>
+                                <div class="big-lines"></div>
+                            </div>
+                            <span class="taskbar-titles main-title"></span>
+                            <div class="biglines-wrapper">
+                                <div class="big-lines"></div>
+                                <div class="big-lines"></div>
+                                <div class="big-lines"></div>
+                                <div class="big-lines"></div>
+                            </div>
+                            <div class="square-wrapper" onclick="toggleWindow(); setPhotosets();">
+                                <div class="square-icon"></div>
+                                <div class="square-icon2"></div>
+                            </div>
+                            <div class="smalllines-wrapper">
+                                <div class="small-lines"></div>
+                                <div class="small-lines"></div>
+                                <div class="small-lines"></div>
+                                <div class="small-lines"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="posts-wrapper">
+                        <div class="main-posts">
+                            <div class="posts">
+                                {block:Posts}
+                                <div class="post" id="{PostID}" url="{RelativePermalink}">
+                                    <div class="post-windows">
+                                        <div class="post-wrapper">
+                                            <div class="post-content">
+                                            {block:Text}
+                                                <div class="text">
+                                                    {block:Title}
+                                                        <h3><a href="{Permalink}">{Title}</a></h3>
+                                                    {/block:Title}
+                                                    {Body}
+                                                </div>
+                                            {/block:Text}
+                                            {block:Photo}
+                                                    <div class="photo">
+                                                        <a href="{Permalink}">
+                                                            <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" />
+                                                        </a>
+                                                        {Caption}
+                                                    </div>
+                                            {/block:Photo}
+                                            {block:Panorama}
+                                                    <div class="panorama">
+                                                        {LinkOpenTag}
+                                                            <img src="{PhotoURL-HighRes}" alt="{PhotoAlt}" />
+                                                        {LinkCloseTag}
+                                                        {block:Caption}
+                                                            <div class="caption">{Caption}</div>
+                                                        {/block:Caption}
+                                                    </div>
+                                            {/block:Panorama}
+                                            {block:Photoset}
+                                                <div class="photoset">
+                                                    <div class="photo-slideshow" id="photoset_{PostID}" data-layout="{PhotosetLayout}">
+                                                        {block:Photos}
+                                                            <div class="photo-data">
+                                                                <div class="pxu-photo">
+                                                                    <img src="{PhotoURL-500}" width="{PhotoWidth-500}"
+                                                                        height="{PhotoHeight-500}" data-highres="{PhotoURL-HighRes}"
+                                                                        data-width="{PhotoWidth-HighRes}" data-height="{PhotoHeight-HighRes}">
+                                                                </div>
+                                                                <a class="tumblr-box" rel="post-{PostID}" href="{PhotoURL-HighRes}"></a>
+                                                            </div>
+                                                        {/block:Photos}
+                                                    </div>
+                                                </div>
+                                                {block:Caption}
+                                                    {Caption}
+                                                {/block:Caption}
+                                            {/block:Photoset}
+                                            {block:Quote}
+                                                <div class="quote">
+                                                    "{Quote}"
+                                                    {block:Source}
+                                                        <div class="source">— {Source}</div>
+                                                    {/block:Source}
+                                                </div>
+                                            {/block:Quote}
+                                            {block:Link}
+                                                <div class="link">
+                                                    <a href="{URL}" {Target} >
+                                                        {block:Thumbnail}
+                                                            <img src="{Thumbnail-HighRes}" />
+                                                        {/block:Thumbnail}
+                                                            <div class="title-excerpt">
+                                                                {Name}
+                                                            </div>
+                                                        {block:Excerpt}
+                                                            <div class="excerpt">{Excerpt}</div>
+                                                        {/block:Excerpt}
+                                                    </a>
+                                                </div>
+                                            {/block:Link}
+                                            {block:Chat}
+                                                <div class="chat">
+                                                    {block:Title}
+                                                        <h3><a href="{Permalink}">{Title}</a></h3>
+                                                    {/block:Title}
+                                                    <ul class="chat-lines">
+                                                        {block:Lines}
+                                                            <li class="{Alt} user_{UserNumber}">
+                                                                {block:Label}
+                                                                    <span class="label">{Label}</span>
+                                                                {/block:Label}
+                                                                <span class="lines">{Line}</span>
+                                                            </li>
+                                                        {/block:Lines}
+                                                    </ul>
+                                                </div>
+                                            {/block:Chat}
+                                            {block:Answer}
+                                                <div class="answer">
+                                                    <div class="question">{Question}</div>
+                                                    <span class="asker">
+                                                        <img src="{AskerPortraitURL-24}" /> 
+                                                        {Asker}
+                                                    </span>
+                                                    <div class="blog-answer">{Answer}</div>
+                                                </div>
+                                            {/block:Answer}
+                                            {block:Video}
+                                                {block:Caption}
+                                                    {Caption}
+                                                {/block:Caption}
+                                                <div class="videowrapper {TagAsClasses}">
+                                                    {Video-700}
+                                                </div>
+                                                {block:ContentSource}
+                                                    <div class="content-source">
+                                                        (via <a href="{SourceURL}">
+                                                            {block:SourceLogo}
+                                                                <img src="{BlackLogoURL}" width="{LogoWidth}" 
+                                                                        height="{LogoHeight}" alt="{SourceTitle}" />
+                                                            {/block:SourceLogo}
+                                                            {block:NoSourceLogo}{SourceTitle}{/block:NoSourceLogo}
+                                                        </a>)
+                                                    </div>
+                                                {/block:ContentSource}
+                                            {/block:Video}
+                                            {block:Audio}
+                                                <div class="audio">
+                                                    {block:AudioEmbed}
+                                                        {AudioEmbed}
+                                                    {/block:AudioEmbed}
+                                                    {block:Caption}
+                                                        <div class="caption">
+                                                            {Caption}
+                                                        </div>
+                                                    {/block:Caption}
+                                                </div>
+                                            {/block:Audio}
+                                            {block:More}
+                                                <div class="more">
+                                                    <button type="button" id="buttonmore" class="btn-default btn-click">
+                                                        <a href="{Permalink}">Keep Reading</a>
+                                                    </button>
+                                                </div>
+                                            {/block:More}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="actions-wrapper">
+                                                <div class="btn-postwindows info-btn btn-default btn-click" onclick="showWindow('info', '{PostID}')">Info on "Post"</div>
+                                                <div class="info-posts">
+                                                    <div class="taskbar info-taskbar">
+                                                        <div class="taskbar-items">
+                                                            <div class="smalllines-wrapper">
+                                                                <div class="small-lines"></div>
+                                                                <div class="small-lines"></div>
+                                                                <div class="small-lines"></div>
+                                                                <div class="small-lines"></div>
+                                                            </div>
+                                                            <div class="square-wrapper">
+                                                                <div class="square-icon" onclick="closeWindow('info', '{PostID}')"></div>
+                                                            </div>
+                                                            <div class="biglines-wrapper">
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                            </div>
+                                                            <span class="taskbar-titles">Info on "Post"</span>
+                                                            <div class="biglines-wrapper">
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-posts-wrapper">
+                                                        <div id="spiral-img"></div>
+                                                        <div class="info-content-wrapper">
+                                                            <div class="info-header">
+                                                                <span>Posts</span>
+                                                            </div>
+                                                            <div class="info-content">
+                                                                <div class="info-line1">
+                                                                    <span>Kind: </span>
+                                                                    {block:HasTags}{block:Tags}
+                                                                        <a href="{TagURL}"># {Tag}</a>
+                                                                    {/block:Tags}{/block:HasTags}
+                                                                </div>
+                                                                <div class="info-line2">
+                                                                    <span>Contents: </span>
+                                                                    <a href="{Permalink}">{NoteCountWithLabel}</a>
+                                                                </div>
+                                                                <div class="info-line3">
+                                                                    <span>Created: </span>
+                                                                    {block:Date}
+                                                                        {ShortDayOfWeek}, {DayOfMonthWithZero} {ShortMonth} 
+                                                                        {Year}, {12HourWithZero}:{Minutes}{CapitalAmPm}
+                                                                    {/block:Date}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="info-tab">
+                                                            <span>General</span>
+                                                            <img src="https://static.tumblr.com/kifah6n/cVDpyo0cv/bottom-content-file.png" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="actions-wrapper">
+                                                <div class="btn-postwindows clip-btn btn-default btn-click" onclick="showWindow('clip', '{PostID}')">Clipboard</div>
+                                                <div class="clipboard">
+                                                    <div class="taskbar info-taskbar">
+                                                        <div class="taskbar-items">
+                                                            <div class="smalllines-wrapper">
+                                                                <div class="small-lines"></div>
+                                                                <div class="small-lines"></div>
+                                                                <div class="small-lines"></div>
+                                                                <div class="small-lines"></div>
+                                                            </div>
+                                                            <div class="square-wrapper">
+                                                                <div class="square-icon" onclick="closeWindow('clip', '{PostID}')"></div>
+                                                            </div>
+                                                            <div class="biglines-wrapper">
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                            </div>
+                                                            <span class="taskbar-titles">Clipboard</span>
+                                                            <div class="biglines-wrapper">
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                                <div class="big-lines"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="clipboard-wrapper">
+                                                        <div class="clipboard-icons1">
+                                                            <div class="like-icon">
+                                                                <div class="like-b">
+                                                                    {LikeButton}
+                                                                    <span class="b clip1-span">Like</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="reblog-icon">
+                                                                <a href="{ReblogURL}">
+                                                                <span class="clip1-span">Reblog</span></a>
+                                                            </div>
+                                                            <div class="embed-icon"><a href='{EmbedUrl}' target="_blank">
+                                                                <span class="clip1-span">Embed.Link</span></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clipboard-icons2">
+                                                            <div class="twitter-icon">
+                                                                <a href='https://twitter.com/intent/tweet?text={URLEncodedTweetSummary}' target="_blank">
+                                                                <span>Twitter</span></a>
+                                                            </div>
+                                                            <div class="facebook-icon">
+                                                                <a href='https://facebook.com/sharer.php?u={URLEncodedPermalink}&t={URLEncodedTitle}'target="_blank">
+                                                                <span>Facebook</span></a>
+                                                            </div>
+                                                            <div class="reddit-icon">
+                                                                <a href='https://reddit.com/submit?url={URLEncodedPermalink}' target="_blank">
+                                                                <span>Reddit</span></a>
+                                                            </div>
+                                                            <div class="email-icon">
+                                                                <a href='mailto:?subject={URLEncodedShareString}&body={URLEncodedMailSummary}'>
+                                                                <span>E.mail</span></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {block:PostNotes}
+                                        <div class="note">
+                                            {PostNotes}
+                                        </div>
+                                        <div id="disqus_thread"></div>
+                                        {block:IfDisqusShortname} 
+                                            <script>
+                                                var disqus_shortname = '{text:Disqus Shortname}';
+                                                var disqus_url = '{Permalink}';
+                                                (function() {
+                                                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                                                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                                                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                                                })();
+                                            </script>
+                                            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">
+                                                comments powered by Disqus.</a>
+                                            </noscript>
+                                        {/block:IfDisqusShortname}
+                                    {/block:PostNotes}
+                                </div>
+                                {/block:Posts}
+                                {block:NoPosts}
+                                    <div id="no-posts">
+                                        <img src="https://static.tumblr.com/kifah6n/TJjpyrqnc/tv-frame.png" />
+                                    </div>
+                                {/block:NoPosts}
+                            </div>
+                            {block:IfNotInfiniteScroll}
+                                {block:Pagination}
+                                    <div class="pagination">
+                                        {block:PreviousPage}
+                                            <a href="{PreviousPage}" class="btn-default btn-pagination btn-click">Previous</a>
+                                        {/block:PreviousPage}
+                                        {block:JumpPagination length="5"}
+                                            {block:CurrentPage}
+                                                <span class="current_page">{PageNumber}</span>
+                                            {/block:CurrentPage}
+                                            {block:JumpPage}
+                                                <a class="jump_page" href="{URL}">{PageNumber}</a>
+                                            {/block:JumpPage}
+                                        {/block:JumpPagination}
+                                        {block:NextPage}
+                                            <a href="{NextPage}" class="btn-default btn-pagination btn-click">Next</a>
+                                        {/block:NextPage}
+                                    </div>
+                                {/block:Pagination}
+                            {/block:IfNotInfiniteScroll}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="desktop-icons">
+                {block:IfShowArchiveIcon}
+                    <div class="icon">
+                        <div class="archive-icon draggable">
+                            <div class="icon-wrapper">
+                                <a href="/archive" class="icon-svg"></a>
+                                <a href="/archive" class="icon-label">
+                                    <span>Archive</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {/block:IfShowArchiveIcon}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
